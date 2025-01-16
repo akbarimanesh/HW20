@@ -1,0 +1,42 @@
+﻿@using App.Domain.Core.Car.CarModel.Entities
+@using App.Domain.Core.Car.User.Enums
+@model List<Model>
+<div class="page">
+
+    <form class="UserCar-form" method="post" asp-action="Create">
+        <img src="~/pic/logo.png" alt="logo">
+       
+        <h4>فرم رزرو معاینه فنی</h4><br>
+
+
+        <input placeholder="نام" type="text" name="FirstName" value="" required><br>
+        <input placeholder="نام خانوادگی" type="text" name="LastName" value="" required><br>
+        <input placeholder="کد ملی" type="text" name="NationalCode" value="" required><br>
+        <input placeholder="موبایل" type="text" name="Mobile" value="" required><br>
+        <input placeholder="شماره پلاک" type="text" name="LicensePlateCar" value="" required><br>
+        <input placeholder="سال تولید خودرو" type="text" name="YearOfProduction" value="" required><br>
+        <input placeholder="آدرس" type="text" name="Address" value="" required><br>
+        <input placeholder="تاریخ رزرو" type="date" name="TechnicalInspection" value="" required><br>
+        <select placeholder="برند خودرو" name="BrandCar" data-sb-validations="required" asp-items="Html.GetEnumSelectList<UserBrandCarEnum>()"><option value="">انتخاب کنید</option></select>
+        <select  name="ModelId" data-sb-validations="required" placeholder="برند خودرو">
+           <option value="">انتخاب کنید</option>
+            @foreach (var modelcar in Model)
+            {
+                <option value="@modelcar.Id">@modelcar.Title</option>
+
+
+            }
+        </select>
+
+
+        <button type="send" class="Transfer-btn">ثبت</button>
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+        }
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        }
+    </form>
+</div>

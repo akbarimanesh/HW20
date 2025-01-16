@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Car\CarModel\DTOs\" />
+    <Folder Include="Car\CarModel\Enums\" />
+    <Folder Include="Car\CarModel\Result\" />
+    <Folder Include="Car\OPrator\Enums\" />
+    <Folder Include="Car\OPrator\Result\" />
+    <Folder Include="Car\User\DTOs\" />
+    <Folder Include="Car\User\Result\" />
+  </ItemGroup>
+
+</Project>
