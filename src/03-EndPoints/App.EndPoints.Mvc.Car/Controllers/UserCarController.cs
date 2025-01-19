@@ -14,11 +14,11 @@ namespace App.EndPoints.Mvc.Car.Controllers
             _UserAppServices = userAppServices;
             _CarModelAppServices = carModelAppServices;
         }
-        public IActionResult Index()
-        {
-            var carModels = _CarModelAppServices.CarModels();
-            return View(carModels);
-        }
+        //public IActionResult Index()
+        //{
+        //    var carModels = _CarModelAppServices.CarModels();
+        //    return View(carModels);
+        //}
         [HttpGet]
         public IActionResult Create()
         {
