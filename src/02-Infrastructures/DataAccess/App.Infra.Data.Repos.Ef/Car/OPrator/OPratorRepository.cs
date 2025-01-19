@@ -37,7 +37,7 @@ namespace App.Infra.Data.Repos.Ef.Car.OPrator
 
         public List<GetListDto> GetList()
         {
-            return _appDbContext.UserCars.AsNoTracking()
+            return _appDbContext.UserCars.AsNoTracking().OrderBy(x=>x.TechnicalInspection)
                 .Select(x => new GetListDto()
                 {
                     Id= x.Id,
