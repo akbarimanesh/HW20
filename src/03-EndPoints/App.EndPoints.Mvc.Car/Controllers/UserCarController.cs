@@ -1,7 +1,11 @@
 ﻿using App.Domain.Core.Car.CarModel.AppServices;
+using App.Domain.Core.Car.CarModel.Entities;
 using App.Domain.Core.Car.User.AppServices;
 using App.Domain.Core.Car.User.Entities;
+using App.Domain.Core.Car.User.Enums;
+using App.EndPoints.Mvc.Car.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace App.EndPoints.Mvc.Car.Controllers
 {
@@ -9,37 +13,61 @@ namespace App.EndPoints.Mvc.Car.Controllers
     {
         private readonly IUserAppServices _UserAppServices;
         private readonly ICarModelAppServices _CarModelAppServices;
-        public UserCarController(IUserAppServices userAppServices , ICarModelAppServices carModelAppServices)
+        public UserCarController(IUserAppServices userAppServices, ICarModelAppServices carModelAppServices)
         {
             _UserAppServices = userAppServices;
             _CarModelAppServices = carModelAppServices;
         }
-        //public IActionResult Index()
-        //{
-        //    var carModels = _CarModelAppServices.CarModels();
-        //    return View(carModels);
-        //}
+
+      
         [HttpGet]
         public IActionResult Create()
         {
-            var carModels = _CarModelAppServices.CarModels();
-            return View(carModels);
+            var models = _CarModelAppServices.CarModels();
+
+
+            var viewModel = new UserCarViewModel
+            {
+                CarModel = new UserCar(),
+                Models = models
+            };
+
+            return View(viewModel);
+
+
         }
         [HttpPost]
-        public IActionResult Create(UserCar userCar)
+        public IActionResult Create(UserCarViewModel model)
         {
-            var result= _UserAppServices.CreateUserCar(userCar);
-            if (result.IsSuccess)
+
+           
+            if (ModelState.IsValid)
             {
-                ViewBag.SuccessMessage = result.IsMessage;
+               
+                var result = _UserAppServices.CreateUserCar(model.CarModel);
+                if (result.IsSuccess)
+                {
+                    ViewBag.SuccessMessage = result.IsMessage;
+
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = result.IsMessage;
+                }
+
 
             }
-            else
+            
+          
+
+            var models = _CarModelAppServices.CarModels();
+            var viewModel = new UserCarViewModel
             {
-                ViewBag.ErrorMessage = result.IsMessage;
-            }
-            var carModels = _CarModelAppServices.CarModels();
-            return View(carModels);
+                CarModel = new UserCar(),
+                Models = models
+            };
+
+            return View(viewModel);
 
         }
 
