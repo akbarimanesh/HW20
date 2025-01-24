@@ -25,7 +25,7 @@ namespace App.Domain.Core.Car.User.Entities
         public string NationalCode { get; set; }
 
         [Required(ErrorMessage = "وارد کردن شماره تلفن اجباری است")]
-        [StringLength(11, ErrorMessage = "شماره تلفن11رقم است")]
+        [RegularExpression(@"^09\d{9}$", ErrorMessage = "شماره موبایل معتبر نیست. باید با 09 شروع شود و 11 رقم باشد.")]
         public string Mobile { get; set; }
 
         [Required(ErrorMessage = "وارد کردن شماره پلاک اجباری است")]
