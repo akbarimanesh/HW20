@@ -17,7 +17,7 @@ namespace App.Domain.Core.Car.CarModel.Entities
 
         #endregion
         #region NavigationProperties
-        public List<UserCar> usercars { get; set; }   
+        public List<UserCar>? usercars { get; set; }   
         #endregion
     }
 }

@@ -9,6 +9,7 @@ namespace App.Domain.Core.Car.Configs
     public class SiteSettings
     {
         public ConnectionStrings ConnectionStrings { get; set; }
-        public Limitation  Limitation { get; set; } 
+        public Limitation  Limitation { get; set; }
+        public string ApiKey { get; set; }
     }
 }
