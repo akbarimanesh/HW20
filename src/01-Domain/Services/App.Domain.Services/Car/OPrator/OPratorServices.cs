@@ -20,29 +20,29 @@ namespace App.Domain.Services.Car.OPrator
             _OPratorRepository = oPratorRepository;
         }
 
-        public void Confirmation(int id)
+        public async Task Confirmation(int id, CancellationToken cToken)
         {
-           _OPratorRepository.Confirmation(id); 
+          await _OPratorRepository.Confirmation(id, cToken); 
         }
 
-        public UserCar GetById(int id)
+        public async Task<UserCar> GetById(int id, CancellationToken cToken)
         {
-            return _OPratorRepository.GetById(id);
+            return await _OPratorRepository.GetById(id, cToken);
         }
 
-        public List<GetListDto> GetList()
+        public async Task<List<GetListDto>> GetList(CancellationToken cToken)
         {
-           return _OPratorRepository.GetList();
+           return  await _OPratorRepository.GetList(cToken);
         }
 
-        public OperatorCar Login(string username, string password)
+        public async Task<OperatorCar> Login(string username, string password, CancellationToken cToken)
         {
-           return  _OPratorRepository.Login(username, password);   
+           return  await _OPratorRepository.Login(username, password,cToken);   
         }
 
-        public void Rejected(int id)
+        public async Task Rejected(int id, CancellationToken cToken)
         {
-            _OPratorRepository.Rejected(id);
+           await _OPratorRepository.Rejected(id, cToken);
         }
     }
 }

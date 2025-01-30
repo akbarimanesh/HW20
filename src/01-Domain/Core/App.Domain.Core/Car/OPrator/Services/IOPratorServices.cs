@@ -11,10 +11,10 @@ namespace App.Domain.Core.Car.OPrator.Services
 {
     public interface IOPratorServices
     {
-        public OperatorCar Login(string username, string password);
-        public List<GetListDto> GetList();
-        public UserCar GetById(int id);
-        public void Confirmation(int id);
-        public void Rejected(int id);
+        public Task<OperatorCar> Login(string username, string password, CancellationToken cToken);
+        public Task<List<GetListDto>> GetList(CancellationToken cToken);
+        public Task<UserCar> GetById(int id, CancellationToken cToken);
+        public Task Confirmation(int id, CancellationToken cToken);
+        public Task Rejected(int id, CancellationToken cToken);
     }
 }

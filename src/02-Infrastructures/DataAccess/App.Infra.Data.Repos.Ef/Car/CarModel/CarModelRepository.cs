@@ -19,40 +19,40 @@ namespace App.Infra.Data.Repos.Ef.Car.CarModel
             _appDbContext = appDbContext;
         }
 
-        public List<Model> CarModels()
+        public async Task<List<Model>> CarModels(CancellationToken cToken)
         {
-           return _appDbContext.Models.AsNoTracking().ToList();
+            return await _appDbContext.Models.AsNoTracking().ToListAsync();
         }
 
-        public void CreateModel(Model model)
+        public async Task CreateModel(Model model, CancellationToken cToken)
         {
-            _appDbContext.Models.Add(model);
-            _appDbContext.SaveChanges();
+           await _appDbContext.Models.AddAsync(model);
+           await _appDbContext.SaveChangesAsync();
         }
 
-        public void DeleteModel(int id)
+        public async Task DeleteModel(int id, CancellationToken cToken)
         {
-            var model = _appDbContext.Models.FirstOrDefault(x => x.Id == id);
-            _appDbContext.Models.Remove(model);
-            _appDbContext.SaveChanges();
+            var model =await _appDbContext.Models.FirstOrDefaultAsync(x => x.Id == id);
+             _appDbContext.Models.Remove(model);
+          await _appDbContext.SaveChangesAsync();
         }
 
-        public bool GetCModel(string modelTitle)
+        public async Task<bool> GetCModel(string modelTitle, CancellationToken cToken)
         {
-            return _appDbContext.Models.AsNoTracking().Any(t => t.Title == modelTitle);
+            return await _appDbContext.Models.AsNoTracking().AnyAsync(t => t.Title == modelTitle);
         }
 
-        public Model GetModelById(int id)
+        public async Task<Model> GetModelById(int id, CancellationToken cToken)
         {
-            return _appDbContext.Models.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            return await _appDbContext.Models.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public void UpdateModel(Model model)
+        public async Task  UpdateModel(Model model, CancellationToken cToken)
         {
-            var model1 = _appDbContext.Models.FirstOrDefault(x => x.Id == model.Id);
+            var model1 =await  _appDbContext.Models.FirstOrDefaultAsync(x => x.Id == model.Id);
            model1.Id = model.Id;
            model1.Title = model.Title;
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
     }
 }

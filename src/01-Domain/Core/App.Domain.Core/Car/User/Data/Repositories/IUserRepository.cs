@@ -11,10 +11,10 @@ namespace App.Domain.Core.Car.User.Data.Repositories
 {
     public interface IUserRepository
     {
-       public UserCar GetByLicensePlateCar(string licensePlateCarId);
-        public bool GetStatus(string licensePlateCarId);
-        public void CreateUserCar(UserCar userCar);
-        public void CreateLogUserCar(LogTable logUserCar);
+       public Task<UserCar> GetByLicensePlateCar(string licensePlateCarId, CancellationToken cToken);
+        public Task<bool> GetStatus(string licensePlateCarId, CancellationToken cToken);
+        public Task CreateUserCar(UserCar userCar, CancellationToken cToken);
+        public Task CreateLogUserCar(LogTable logUserCar, CancellationToken cToken);
        
     }
 }

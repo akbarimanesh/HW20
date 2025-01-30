@@ -20,23 +20,23 @@ namespace App.EndPoints.Api.Car.Controllers
            
         }
         [HttpGet("[action]")]
-        public List<Model> GetAll()
+        public async  Task<List<Model>> GetAll(CancellationToken cToken)
         {  
-            List<Model> models = _CarModelAppServices.CarModels();
+            List<Model> models =await _CarModelAppServices.CarModels(cToken);
             return models;
            
         }
         [HttpGet("[action]")]
-        public Model GetById(int id)
+        public async Task<Model> GetById(int id, CancellationToken cToken)
         {
-            Model model = _CarModelAppServices.GetModelById(id);
+            Model model =await _CarModelAppServices.GetModelById(id,cToken);
             return model;
 
         }
         [HttpPost("[action]")]
-        public string Create(Model model)
+        public async Task<string> Create(Model model, CancellationToken cToken)
         {
-            var result=_CarModelAppServices.CreateModel(model);
+            var result=await _CarModelAppServices.CreateModel(model,cToken);
             if (result.IsSuccess)
             {
 
@@ -52,9 +52,9 @@ namespace App.EndPoints.Api.Car.Controllers
         }
 
         [HttpPost("[action]")]
-        public string  Update(Model model)
+        public async Task<string>  Update(Model model, CancellationToken cToken)
         {
-          var result= _CarModelAppServices.UpdateModel(model);
+          var result=await _CarModelAppServices.UpdateModel(model,cToken);
             if (result.IsSuccess)
             {
                 return result.IsMessage;
@@ -68,9 +68,9 @@ namespace App.EndPoints.Api.Car.Controllers
         }
 
         [HttpDelete("[action]")]
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id, CancellationToken cToken)
         {
-            _CarModelAppServices.DeleteModel(id);
+           await _CarModelAppServices.DeleteModel(id, cToken);
            
             return true;
         }

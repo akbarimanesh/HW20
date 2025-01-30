@@ -9,11 +9,11 @@ namespace App.Domain.Core.Car.CarModel.Services
 {
     public interface ICarModelServices
     {
-        public List<Model> CarModels();
-        public void CreateModel(Model model);
-        public Model GetModelById(int id);
-        public void DeleteModel(int id);
-        public void UpdateModel(Model model);
-        public bool GetCModel(string modelTitle);
+        public  Task<List<Model>> CarModels(CancellationToken cToken);
+        public  Task CreateModel(Model model, CancellationToken cToken);
+        public  Task<Model> GetModelById(int id, CancellationToken cToken);
+        public  Task DeleteModel(int id, CancellationToken cToken);
+        public  Task UpdateModel(Model model, CancellationToken cToken);
+        public  Task<bool> GetCModel(string modelTitle, CancellationToken cToken);
     }
 }

@@ -30,7 +30,7 @@ namespace App.Infra.Data.Db.SqlServer.Ef.Common
 
         public DbSet<UserCar> UserCars { get; set; }
        public DbSet<OperatorCar> OperatorCars { get; set; }
-        public DbSet<Model> Models { get; set; }
+        public  DbSet<Model> Models { get; set; }
         public DbSet<LogTable> LogTables { get; set; }
     }
 }

@@ -27,11 +27,11 @@ namespace App.Domain.AppServices.Car.User
             _SiteSettings = siteSettings;
         }
 
-        public Result CreateUserCar(UserCar userCar)
+        public async Task<Result> CreateUserCar(UserCar userCar, CancellationToken cToken)
         {
             
            
-            if (_UserServices.GetByLicensePlateCar(userCar.LicensePlateCar)!=null && _UserServices.GetStatus(userCar.LicensePlateCar) && userCar.TechnicalInspection.AddDays(365) >= DateTime.Now)
+            if (await _UserServices.GetByLicensePlateCar(userCar.LicensePlateCar,cToken)!=null && await _UserServices.GetStatus(userCar.LicensePlateCar, cToken) && userCar.TechnicalInspection.AddDays(365) >= DateTime.Now)
             {
                 return new Result(false, "خودرو شما کمتر از یکسال،معاینه فنی رو دریافت کرده است.");
             }
@@ -54,7 +54,7 @@ namespace App.Domain.AppServices.Car.User
                     LoggedAt= DateTime.Now
 
                 };
-                _UserServices.CreateLogUserCar(log);
+               await _UserServices.CreateLogUserCar(log, cToken);
                 return new Result(false, "سال تولید خودرو شما بیش از 5 سال است.");
 
             }
@@ -92,7 +92,7 @@ namespace App.Domain.AppServices.Car.User
                     Status= userCar.Status
                    
                 };
-                _UserServices.CreateUserCar(usercar1);
+               await _UserServices.CreateUserCar(usercar1,cToken);
                 if(userCar.TechnicalInspection.Day % 2 == 0)
                 {
                     MemoryDb.EvenDayRequests++;
