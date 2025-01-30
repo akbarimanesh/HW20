@@ -13,29 +13,29 @@ namespace App.Domain.Services.Car.User
     {
         private readonly IUserRepository _UserRepository;
 
-        public UserServices(IUserRepository userRepository)
+        public  UserServices(IUserRepository userRepository)
         {
             _UserRepository = userRepository;
         }
 
-        public void CreateLogUserCar(LogTable logUserCar)
+        public async Task CreateLogUserCar(LogTable logUserCar, CancellationToken cToken)
         {
-            _UserRepository.CreateLogUserCar(logUserCar);
+           await _UserRepository.CreateLogUserCar(logUserCar, cToken);
         }
 
-        public void CreateUserCar(UserCar userCar)
+        public async Task CreateUserCar(UserCar userCar, CancellationToken cToken)
         {
-            _UserRepository.CreateUserCar(userCar);
+            await _UserRepository.CreateUserCar(userCar, cToken);
         }
 
-        public UserCar GetByLicensePlateCar(string licensePlateCarId)
+        public async Task<UserCar> GetByLicensePlateCar(string licensePlateCarId, CancellationToken cToken)
         {
-            return _UserRepository.GetByLicensePlateCar(licensePlateCarId);
+            return await _UserRepository.GetByLicensePlateCar(licensePlateCarId, cToken);
         }
 
-        public bool GetStatus(string licensePlateCarId)
+        public async Task<bool> GetStatus(string licensePlateCarId, CancellationToken cToken)
         {
-            return _UserRepository.GetStatus(licensePlateCarId);
+            return await _UserRepository.GetStatus(licensePlateCarId, cToken);
         }
     }
 }

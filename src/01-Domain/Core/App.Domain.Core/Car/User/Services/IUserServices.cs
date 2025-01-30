@@ -10,10 +10,10 @@ namespace App.Domain.Core.Car.User.Services
 {
     public interface IUserServices
     {
-        public UserCar GetByLicensePlateCar(string licensePlateCarId);
-        public void CreateUserCar(UserCar userCar);
-        public bool GetStatus(string licensePlateCarId);
-        public void CreateLogUserCar(LogTable logUserCar);
+        public Task<UserCar> GetByLicensePlateCar(string licensePlateCarId, CancellationToken cToken);
+        public Task CreateUserCar(UserCar userCar, CancellationToken cToken);
+        public Task<bool> GetStatus(string licensePlateCarId, CancellationToken cToken);
+        public Task CreateLogUserCar(LogTable logUserCar, CancellationToken cToken);
         
     }
 }

@@ -18,34 +18,34 @@ namespace App.Domain.Services.Car.CarModel
             _CarModelRepository = carModelRepository;
         }
 
-        public List<Model> CarModels()
+        public async Task<List<Model>> CarModels(CancellationToken cToken)
         {
-            return _CarModelRepository.CarModels();
+            return await _CarModelRepository.CarModels(cToken);
         }
 
-        public void CreateModel(Model model)
+        public async Task CreateModel(Model model, CancellationToken cToken)
         {
-            _CarModelRepository.CreateModel(model);
+           await _CarModelRepository.CreateModel(model, cToken);
         }
 
-        public void DeleteModel(int id)
+        public async Task DeleteModel(int id, CancellationToken cToken)
         {
-            _CarModelRepository.DeleteModel(id);
+            await _CarModelRepository.DeleteModel(id, cToken);
         }
 
-        public bool GetCModel(string modelTitle)
+        public async Task<bool> GetCModel(string modelTitle, CancellationToken cToken)
         {
-            return _CarModelRepository.GetCModel(modelTitle);
+            return await _CarModelRepository.GetCModel(modelTitle, cToken);
         }
 
-        public Model GetModelById(int id)
+        public async Task<Model> GetModelById(int id, CancellationToken cToken)
         {
-            return _CarModelRepository.GetModelById(id);
+            return await _CarModelRepository.GetModelById(id, cToken);
         }
 
-        public void UpdateModel(Model model)
+        public async Task UpdateModel(Model model, CancellationToken cToken)
         {
-            _CarModelRepository.UpdateModel(model);
+           await _CarModelRepository.UpdateModel(model, cToken);
         }
     }
 }

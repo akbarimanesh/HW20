@@ -18,14 +18,14 @@ namespace App.Domain.AppServices.Car.CarModel
             _CarModelServices = carModelServices;
         }
 
-        public List<Model> CarModels()
+        public async Task<List<Model>> CarModels(CancellationToken cToken)
         {
-           return _CarModelServices.CarModels();
+           return await _CarModelServices.CarModels( cToken);
         }
 
-        public Result CreateModel(Model model)
+        public async Task<Result> CreateModel(Model model, CancellationToken cToken)
         {
-            if (_CarModelServices.GetCModel(model.Title))
+            if (await _CarModelServices.GetCModel(model.Title,cToken))
             {
                 return new Result(false, "مدل خودرو موجود می باشد.");
 
@@ -39,24 +39,24 @@ namespace App.Domain.AppServices.Car.CarModel
                     Title = model.Title,
                     
                 };
-                _CarModelServices.CreateModel(model1);
+                await _CarModelServices.CreateModel(model1, cToken);
                 return new Result(true, "مدل خودرو با موفقیت اضافه شد.");
             }
         }
 
-        public void DeleteModel(int id)
+        public async Task DeleteModel(int id, CancellationToken cToken)
         {
-            _CarModelServices.DeleteModel(id);
+            await _CarModelServices.DeleteModel(id, cToken);
         }
 
-        public Model GetModelById(int id)
+        public async Task<Model> GetModelById(int id, CancellationToken cToken)
         {
-            return _CarModelServices.GetModelById(id);
+            return await _CarModelServices.GetModelById(id, cToken);
         }
 
-        public Result UpdateModel(Model model)
+        public async Task<Result> UpdateModel(Model model, CancellationToken cToken)
         {
-            if (_CarModelServices.GetCModel(model.Title))
+            if (await _CarModelServices.GetCModel(model.Title, cToken))
             {
                 return new Result(false, "مدل خودرو موجود می باشد.");
 
@@ -64,7 +64,7 @@ namespace App.Domain.AppServices.Car.CarModel
 
             else
             {
-                _CarModelServices.UpdateModel(model);
+               await _CarModelServices.UpdateModel(model,cToken);
                 return new Result(true, "ویرایش با موفقیت انجام شد.");
             }
         }

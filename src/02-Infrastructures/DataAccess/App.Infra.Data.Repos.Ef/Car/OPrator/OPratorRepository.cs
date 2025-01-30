@@ -23,21 +23,21 @@ namespace App.Infra.Data.Repos.Ef.Car.OPrator
             _appDbContext = appDbContext;
         }
 
-        public void Confirmation(int id)
+        public async Task Confirmation(int id, CancellationToken cToken)
         {
-          var car=  _appDbContext.UserCars.Where(x => x.Id == id).FirstOrDefault();
+          var car=  await _appDbContext.UserCars.Where(x => x.Id == id).FirstOrDefaultAsync();
             car.Status = UserStatusCarEnum.aproved;
-            _appDbContext.SaveChanges();
+            _appDbContext.SaveChangesAsync();
         }
 
-        public UserCar GetById(int id)
+        public async Task<UserCar> GetById(int id, CancellationToken cToken)
         {
-            return _appDbContext.UserCars.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            return await _appDbContext.UserCars.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public List<GetListDto> GetList()
+        public async Task<List<GetListDto>> GetList(CancellationToken cToken)
         {
-            return _appDbContext.UserCars.AsNoTracking().OrderBy(x=>x.TechnicalInspection)
+            return await _appDbContext.UserCars.AsNoTracking().OrderBy(x=>x.TechnicalInspection)
                 .Select(x => new GetListDto()
                 {
                     Id= x.Id,
@@ -53,19 +53,19 @@ namespace App.Infra.Data.Repos.Ef.Car.OPrator
                     Address= x.Address,
                     Status= x.Status
 
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public OperatorCar Login(string username, string password)
+        public async Task<OperatorCar> Login(string username, string password, CancellationToken cToken)
         {
-            return _appDbContext.OperatorCars.AsNoTracking().FirstOrDefault(x => x.UserName == username && x.Password == password);
+            return await _appDbContext.OperatorCars.AsNoTracking().FirstOrDefaultAsync(x => x.UserName == username && x.Password == password);
         }
 
-        public void Rejected(int id)
+        public async Task Rejected(int id, CancellationToken cToken)
         {
-            var car = _appDbContext.UserCars.Where(x => x.Id == id).FirstOrDefault();
+            var car =await _appDbContext.UserCars.Where(x => x.Id == id).FirstOrDefaultAsync();
             car.Status = UserStatusCarEnum.Rejected;
-            _appDbContext.SaveChanges();
+           await _appDbContext.SaveChangesAsync();
         }
     }
 }

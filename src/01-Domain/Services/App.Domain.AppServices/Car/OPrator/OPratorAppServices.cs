@@ -20,26 +20,26 @@ namespace App.Domain.AppServices.Car.OPrator
             _OPratorServices = oPratorServices;
         }
 
-        public Result Confirmation(int id)
+        public async Task<Result> Confirmation(int id, CancellationToken cToken)
         {
-            _OPratorServices.Confirmation(id);
+           await _OPratorServices.Confirmation(id, cToken);
             return new Result(true, "تایید شد.");
         }
 
-        public UserCar GetById(int id)
+        public async Task<UserCar> GetById(int id, CancellationToken cToken)
         {
-          return _OPratorServices.GetById(id);
+          return await _OPratorServices.GetById(id, cToken);
         }
 
-        public List<GetListDto> GetList()
+        public async Task<List<GetListDto>> GetList(CancellationToken cToken)
         {
-           return _OPratorServices.GetList();
+           return await _OPratorServices.GetList(cToken);
            
         }
 
-        public Result Login(string username, string password)
+        public async Task<Result> Login(string username, string password, CancellationToken cToken)
         {
-           if(_OPratorServices.Login(username, password)==null)
+           if(await _OPratorServices.Login(username, password,cToken)==null)
             {
                 return new Result(false, "نام کاربری یا رمز عبور اشتباه است.");
                 
@@ -47,15 +47,15 @@ namespace App.Domain.AppServices.Car.OPrator
             }
             else
             {
-                _OPratorServices.Login(username, password);
+               await _OPratorServices.Login(username, password, cToken);
                 return new Result(true, "خوش آمدید.");
 
             }
         }
 
-        public Result Rejected(int id)
+        public async Task<Result> Rejected(int id, CancellationToken cToken)
         {
-            _OPratorServices.Rejected(id);
+           await _OPratorServices.Rejected(id, cToken);
             return new Result(true, "رد شد.");
         }
     }

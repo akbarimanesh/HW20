@@ -9,6 +9,6 @@ namespace App.Domain.Core.Car.User.AppServices
 {
     public interface IUserAppServices
     {
-        public Result CreateUserCar(UserCar userCar);
+        public Task<Result> CreateUserCar(UserCar userCar, CancellationToken cToken);
     }
 }
