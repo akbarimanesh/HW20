@@ -27,7 +27,7 @@ namespace App.Infra.Data.Repos.Ef.Car.OPrator
         {
           var car=  await _appDbContext.UserCars.Where(x => x.Id == id).FirstOrDefaultAsync();
             car.Status = UserStatusCarEnum.aproved;
-            _appDbContext.SaveChangesAsync();
+           await _appDbContext.SaveChangesAsync();
         }
 
         public async Task<UserCar> GetById(int id, CancellationToken cToken)
@@ -58,7 +58,8 @@ namespace App.Infra.Data.Repos.Ef.Car.OPrator
 
         public async Task<OperatorCar> Login(string username, string password, CancellationToken cToken)
         {
-            return await _appDbContext.OperatorCars.AsNoTracking().FirstOrDefaultAsync(x => x.UserName == username && x.Password == password);
+           
+           return await _appDbContext.OperatorCars.AsNoTracking().FirstOrDefaultAsync(x => x.UserName == username && x.PasswordHash == password);
         }
 
         public async Task Rejected(int id, CancellationToken cToken)
@@ -66,6 +67,13 @@ namespace App.Infra.Data.Repos.Ef.Car.OPrator
             var car =await _appDbContext.UserCars.Where(x => x.Id == id).FirstOrDefaultAsync();
             car.Status = UserStatusCarEnum.Rejected;
            await _appDbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<Role>> GetRoles(CancellationToken cToken)
+        {
+            return await _appDbContext.Roles.AsNoTracking().ToListAsync();
+           
+
         }
     }
 }

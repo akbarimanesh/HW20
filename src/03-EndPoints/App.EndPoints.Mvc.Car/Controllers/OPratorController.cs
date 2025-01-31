@@ -1,7 +1,12 @@
 ﻿using App.Domain.Core.Car.CarModel.AppServices;
 using App.Domain.Core.Car.OPrator.AppServices;
+using App.Domain.Core.Car.OPrator.Entities;
 using App.Domain.Core.Car.User.Entities;
+using App.EndPoints.Mvc.Car.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using System.Threading;
 
 namespace App.EndPoints.Mvc.Car.Controllers
 {
@@ -9,12 +14,48 @@ namespace App.EndPoints.Mvc.Car.Controllers
     {
         private readonly IOPratorAppServices _OPratorAppServices;
         private readonly ICarModelAppServices _CarModelAppServices;
-        public OPratorController(IOPratorAppServices oPratorAppServices, ICarModelAppServices carModelAppServices)
+        private readonly SignInManager<OperatorCar> _signInManager;
+
+        public OPratorController(IOPratorAppServices oPratorAppServices, ICarModelAppServices carModelAppServices, SignInManager<OperatorCar> signInManager)
         {
             _OPratorAppServices = oPratorAppServices;
             _CarModelAppServices = carModelAppServices;
+            _signInManager = signInManager;
+             
         }
+        [HttpGet]
+        public async Task<IActionResult> Register(CancellationToken cToken)
+        {
+           
+           var Roles = await _OPratorAppServices.GetRoles(cToken);
+            var viewModel = new OpratorCarViewModel
+            {
+                OperatorCar = new OperatorCar(),
+                Roles = Roles
+            };
 
+            return View(viewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(OpratorCarViewModel user,CancellationToken cToken)
+        {
+            await _OPratorAppServices.GetRoles(cToken);
+            var result = await _OPratorAppServices.Register(user.OperatorCar , cToken);
+
+
+
+            var Roles = await _OPratorAppServices.GetRoles(cToken);
+            var viewModel = new OpratorCarViewModel
+            {
+                OperatorCar = new OperatorCar(),
+                Roles = Roles
+            };
+
+            //return View(viewModel);
+            return RedirectToAction("Login", "OPrator");
+
+
+        }
 
         [HttpGet]
         public IActionResult Login()
@@ -27,29 +68,14 @@ namespace App.EndPoints.Mvc.Car.Controllers
 
             var result = await _OPratorAppServices.Login(username, password,cToken);
 
-            if (result.IsSuccess)
-            {
-                HttpContext.Session.SetString("UserName", username);
-                return RedirectToAction("Index", "Home");
-
-            }
-            else
-            {
-                ViewBag.ErrorMessage = result.IsMessage;
-
-            }
-
-            return View();
+            return RedirectToAction("Index", "Home");
 
 
         }
         [HttpGet]
         public async Task<IActionResult> Index(CancellationToken cToken)
         {
-            if (!IsLoggedIn())
-            {
-                return RedirectToAction("Login", "OPrator");
-            }
+            
           
              var Cars =await _OPratorAppServices.GetList(cToken);
 
@@ -61,10 +87,7 @@ namespace App.EndPoints.Mvc.Car.Controllers
         [HttpGet]
         public async Task<IActionResult> Confirmation(int id, CancellationToken cToken)
         {
-            if (!IsLoggedIn())
-            {
-                return RedirectToAction("Login", "OPrator");
-            }
+            
             var result =await _OPratorAppServices.Confirmation(id, cToken);
             if (result.IsSuccess)
             {
@@ -83,10 +106,7 @@ namespace App.EndPoints.Mvc.Car.Controllers
         [HttpGet]
         public async Task<IActionResult> Rejected(int id, CancellationToken cToken)
         {
-            if (!IsLoggedIn())
-            {
-                return RedirectToAction("Login", "OPrator");
-            }
+            
             var result = await _OPratorAppServices.Rejected(id, cToken);
             if (result.IsSuccess)
             {
@@ -102,14 +122,12 @@ namespace App.EndPoints.Mvc.Car.Controllers
             var Cars =await _OPratorAppServices.GetList(cToken);
             return View("ListCars", Cars);
         }
-        public IActionResult Logout()
+        
+        public async Task<IActionResult> Logout()
         {
-            HttpContext.Session.Remove("UserName");
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
-        private bool IsLoggedIn()
-        {
-            return !string.IsNullOrEmpty(HttpContext.Session.GetString("UserName"));
-        }
+
     }
 }

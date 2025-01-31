@@ -44,5 +44,10 @@ namespace App.Domain.Services.Car.OPrator
         {
            await _OPratorRepository.Rejected(id, cToken);
         }
+
+        public async Task<List<Role>> GetRoles(CancellationToken cToken)
+        {
+           return await _OPratorRepository.GetRoles(cToken);
+        }
     }
 }

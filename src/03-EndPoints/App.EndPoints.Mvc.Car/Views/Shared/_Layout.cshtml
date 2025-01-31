@@ -20,21 +20,9 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @if (string.IsNullOrEmpty(Context.Session.GetString("UserName")))
+                        
+                        @if (User.IsInRole("Admin"))
                         {
-                            
-                            <li class="nav-item">
-                                
-                                <a class="nav-link text-dark" asp-area="" asp-controller="UserCar" asp-action="Create">رزرو معاینه فنی</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="OPrator" asp-action="Login">ورود مدیر</a>
-
-                            </li>
-                        }
-                        else
-                        {
-                            
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="OPrator" asp-action="Index">لیست رزرو شده</a>
                             </li>
@@ -45,6 +33,25 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="OPrator" asp-action="Logout">خروج</a>
                             </li>
 
+
+
+                           
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="OPrator" asp-action="Register">ثبت نام</a>
+
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="OPrator" asp-action="Login">ورود مدیر</a>
+
+                            </li>
+
+                            <li class="nav-item">
+
+                                <a class="nav-link text-dark" asp-area="" asp-controller="UserCar" asp-action="Create">رزرو معاینه فنی</a>
+                            </li>
                         }
 
                     </ul>

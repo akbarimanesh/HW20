@@ -1,0 +1,36 @@
+﻿@using App.Domain.Core.Car.OPrator.Entities
+@model OpratorCarViewModel
+
+<div class="page">
+
+    <form class="register-form" method="post" asp-action="Register">
+
+        <img src="~/pic/logo.png" alt="logo">
+        <h4>ثبت نام </h4><br>
+
+
+        <input placeholder="نام کاربری" type="text" asp-for="OperatorCar.UserName" ><br>
+        <input placeholder="ایمیل" type="text" asp-for="OperatorCar.Email" ><br>
+       @*  <select name="RoleId" class="form-select">
+            @foreach (var role in Model.Roles)
+            {
+                <option value="@role.Id">@role.Title</option>
+            }
+        </select> *@
+        <input placeholder="رمز عبور" type="password" name="Password" value="" required><br><br>
+        <button type="send" class="register-btn">ثبت نام</button>
+
+       @*  @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+        }
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        } *@
+
+
+    </form>
+</div>
+
+

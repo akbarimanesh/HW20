@@ -7,6 +7,7 @@ using App.Domain.Core.Car.CarModel.Services;
 using App.Domain.Core.Car.Configs;
 using App.Domain.Core.Car.OPrator.AppServices;
 using App.Domain.Core.Car.OPrator.Data.Repositories;
+using App.Domain.Core.Car.OPrator.Entities;
 using App.Domain.Core.Car.OPrator.Services;
 using App.Domain.Core.Car.User.AppServices;
 using App.Domain.Core.Car.User.Data.Repositories;
@@ -18,6 +19,8 @@ using App.Infra.Data.Db.SqlServer.Ef.Common;
 using App.Infra.Data.Repos.Ef.Car.CarModel;
 using App.Infra.Data.Repos.Ef.Car.OPrator;
 using App.Infra.Data.Repos.Ef.Car.User;
+using Framework;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +34,21 @@ builder.Services.AddSingleton(siteSettings);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
+builder.Services.AddIdentity<OperatorCar, IdentityRole<int>>(option=>
+{
+    option.SignIn.RequireConfirmedAccount = false;
+    option.Password.RequireDigit= false;
+    option.Password.RequiredLength = 6;
+    option.Password.RequireNonAlphanumeric = false;
+    option.Password.RequireUppercase = false;
+    option.Password.RequireLowercase = false;
+    
+})
+   
+   .AddRoles<IdentityRole<int>>()
+   .AddErrorDescriber<PersianIdentityErrorDescriber>()
+   .AddEntityFrameworkStores<AppDbContext>();
+
 #region Register Services
 builder.Services.AddScoped<IUserAppServices, UserAppServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();

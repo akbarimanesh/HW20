@@ -11,6 +11,7 @@ namespace App.Domain.Core.Car.OPrator.Services
 {
     public interface IOPratorServices
     {
+        public Task<List<Role>> GetRoles(CancellationToken cToken);
         public Task<OperatorCar> Login(string username, string password, CancellationToken cToken);
         public Task<List<GetListDto>> GetList(CancellationToken cToken);
         public Task<UserCar> GetById(int id, CancellationToken cToken);
